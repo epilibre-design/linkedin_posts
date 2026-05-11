@@ -1,0 +1,42 @@
+<paquet
+	prefix="linkedin_post"
+	categorie="communication"
+	version="0.1.0"
+	etat="dev"
+	compatibilite="[4.2.0;4.4.*]"
+	logo="prive/themes/spip/images/linkedin_post-xx.svg"
+	schema="0.1.0"
+>
+
+	<nom>Import LinkedIn</nom>
+	<!-- Importer une publication LinkedIn et la transformer en article SPIP -->
+
+	<auteur>Gilles Vincent</auteur>
+	<licence>GNU/GPL v3</licence>
+
+	<necessite nom="spip" compatibilite="[4.2.0;4.4.*]" />
+	<necessite nom="saisies" compatibilite="[5.0.0;[" />
+	<necessite nom="medias" compatibilite="[4.0.0;[" />
+
+	<pipeline nom="declarer_tables_objets_sql" inclure="base/linkedin_post.php" />
+	<pipeline nom="declarer_tables_interfaces" inclure="base/linkedin_post.php" />
+	<pipeline nom="autoriser" inclure="linkedin_post_autorisations.php" />
+	<pipeline nom="post_edition" inclure="linkedin_post_pipelines.php" />
+
+	<menu
+		nom="linkedin_posts"
+		titre="linkedin_post:titre_menu_linkedin_posts"
+		parent="menu_edition"
+		icone="images/linkedin_post-16.svg"
+		action="linkedin_posts"
+	/>
+
+	<menu
+		nom="linkedin_post_importer"
+		titre="linkedin_post:icone_importer_linkedin_post"
+		parent="outils_rapides"
+		icone="images/linkedin_post-16.svg"
+		action="linkedin_post_importer"
+	/>
+
+</paquet>

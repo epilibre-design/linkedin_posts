@@ -1,0 +1,26 @@
+[(#ID_LINKEDIN_POST|intval|oui)
+	[(#AUTORISER{modifier,linkedin_post,#ID_LINKEDIN_POST}|sinon_interdire_acces)]
+][(#ID_LINKEDIN_POST|intval|non)
+	[(#AUTORISER{creer,linkedin_post,#ID_LINKEDIN_POST,'',#ARRAY{associer_objet,#ENV{associer_objet}}}|sinon_interdire_acces)]
+]
+
+#SET{retour,#ENV{redirect}|sinon{#ID_LINKEDIN_POST|?{#URL_ECRIRE{linkedin_post,ID_LINKEDIN_POST=#ID_LINKEDIN_POST},#URL_ECRIRE{mots}}}}
+<div class='cadre-formulaire-editer'>
+<div class="entete-formulaire">
+	[(#ID_LINKEDIN_POST|intval|oui)
+	[(#GET{retour}|icone_verticale{<:icone_retour:>,linkedin_post,'',left retour[(#ENV{retourajax,''}|oui)ajax preload]})]
+	]
+	[[(#ID_LINKEDIN_POST|intval|?{<:linkedin_post:info_modifier_linkedin_post:>,<:titre_ajouter_un_linkedin_post:>})]
+	<h1>(#ENV{titre,#INFO_TITRE{linkedin_post,#ID_LINKEDIN_POST}|sinon{<:linkedin_post:texte_nouveau_linkedin_post:>}})</h1>]
+</div>
+
+#SET{redirect,#ENV{redirect,#ID_LINKEDIN_POST|generer_objet_url{linkedin_post}}}
+[(#ENV{retourajax,''}|oui)
+	<div class="ajax">
+]
+	#FORMULAIRE_EDITER_LINKEDIN_POST{#ENV{id_linkedin_post,oui},#GET{redirect},#ENV{associer_objet}}
+[(#ENV{retourajax,''}|oui)
+	</div>
+	<script> if (window.jQuery) jQuery('#navigation>div,#extra>div').ajaxReload({args:{exec:'#ENV{exec}'}}); </script>
+]
+</div>

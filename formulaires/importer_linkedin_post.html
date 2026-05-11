@@ -1,0 +1,55 @@
+[(#REM) Formulaire d'import d'une publication LinkedIn ]
+
+[<div class="reponse_formulaire reponse_formulaire_ok">(#ENV*{message_ok})</div>]
+[<div class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</div>]
+
+<BOUCLE_editable(CONDITION){si #ENV{editable}|oui}>
+<form method="post" action="#ENV{action}" class="formulaire_spip formulaire_importer_linkedin_post">
+	#ACTION_FORMULAIRE{#ENV{action}}
+
+	<ul>
+		#SET{name,url}
+		<li class="editer editer_#GET{name} obligatoire[ (#ENV**{erreurs}|table_valeur{#GET{name}}|oui)erreur]">
+			<label for="champ_#GET{name}"><:linkedin_post:label_url:></label>
+			[<span class="erreur_message">(#ENV**{erreurs}|table_valeur{#GET{name}})</span>]
+			<input type="text"
+				   class="text"
+			       name="#GET{name}"
+			       id="champ_#GET{name}"
+			       value="#ENV{#GET{name}}"
+			       placeholder="https://www.linkedin.com/posts/..."
+			       required="required"
+			       autofocus="autofocus" />
+			<p class="explication"><:linkedin_post:explication_url:></p>
+		</li>
+
+		#SET{name,id_rubrique}
+		<li class="editer editer_#GET{name} obligatoire[ (#ENV**{erreurs}|table_valeur{#GET{name}}|oui)erreur]">
+			<label for="champ_#GET{name}"><:linkedin_post:label_rubrique:></label>
+			[<span class="erreur_message">(#ENV**{erreurs}|table_valeur{#GET{name}})</span>]
+			[(#ENV{rubriques_autorisees}|oui)
+			<select name="#GET{name}" id="champ_#GET{name}">
+				<BOUCLE_rubriques_filtrees(RUBRIQUES){id_rubrique IN #ENV{rubriques_autorisees}}{par titre}>
+				<option value="#ID_RUBRIQUE"[ (#ID_RUBRIQUE|=={#ENV{id_rubrique}}|oui)selected="selected"]>[(#TITRE|couper{60})]</option>
+				</BOUCLE_rubriques_filtrees>
+			</select>
+			]
+			[(#ENV{rubriques_autorisees}|non)
+			<select name="#GET{name}" id="champ_#GET{name}">
+				<BOUCLE_rubriques(RUBRIQUES){tout}{par titre}>
+				<option value="#ID_RUBRIQUE"[ (#ID_RUBRIQUE|=={#ENV{id_rubrique}}|oui)selected="selected"]>[(#TITRE|couper{60})]</option>
+				</BOUCLE_rubriques>
+			</select>
+			]
+		</li>
+
+	</ul>
+
+	<p class="boutons">
+		<input type="submit"
+		       class="submit"
+		       name="ok"
+		       value="<:linkedin_post:bouton_importer:>" />
+	</p>
+</form>
+</BOUCLE_editable>

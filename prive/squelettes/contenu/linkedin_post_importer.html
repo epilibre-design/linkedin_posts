@@ -1,0 +1,20 @@
+[(#REM)
+	Page ?exec=linkedin_post_importer
+	Affiche le formulaire d'import en page complète.
+
+	Variante : par défaut SPIP utilise prive/echafaudage/contenu/objet.html
+	pour ?exec=linkedin_post_edit (mode "new"). On surcharge ici pour proposer
+	notre formulaire d'import simplifié plutôt que le formulaire d'édition complet.
+]
+
+[(#AUTORISER{importer,linkedin_post}|sinon_interdire_acces)]
+
+<h1 class="grostitre"><:linkedin_post:titre_importer_linkedin_post:></h1>
+
+<div class="ajax">
+	#FORMULAIRE_IMPORTER_LINKEDIN_POST{#ENV{id_rubrique}}
+</div>
+
+<div class="explication">
+	<p><:linkedin_post:explication_importer:></p>
+</div>

@@ -1,0 +1,39 @@
+[(#REM)
+	Bloc d'informations latéral pour un linkedin_post.
+	Affiche : statut, lien article généré, action de re-scraping.
+]
+
+<INCLURE{fond=prive/objets/infos/objet,env} />
+
+<BOUCLE_post(LINKEDIN_POSTS){id_linkedin_post=#ENV{id}}{0,1}{tout}>
+
+	[(#ID_ARTICLE|>{0}|oui)
+	<div class="infos" style="margin-bottom: 1em;">
+		<div class="label"><:linkedin_post:label_article:></div>
+		<BOUCLE_article(ARTICLES){id_article}{0,1}{tout}>
+			<div class="article"><a href="[(#ID_ARTICLE|generer_objet_url_ecrire{article})]">#TITRE</a></div>
+		</BOUCLE_article>
+	</div>
+	]
+
+	[(#URL|oui)
+	<div class="infos" style="margin-bottom: 1em;">
+		<div class="label"><:linkedin_post:label_url:></div>
+		<div class="url">
+			<a href="#URL" rel="external" target="_blank">[(#URL|couper{40})]</a>
+		</div>
+	</div>
+	]
+
+	[(#AUTORISER{rescraper,linkedin_post,#ID_LINKEDIN_POST}|et{#STATUT|=={prepa}}|oui)
+	<div class="infos">
+		[(#BOUTON_ACTION{
+			<:linkedin_post:bouton_rescraper:>,
+			#URL_ACTION_AUTEUR{rescraper_linkedin_post,#ID_LINKEDIN_POST,#SELF},
+			ajax,
+			<:linkedin_post:confirmer_rescraper:>
+		})]
+	</div>
+	]
+
+</BOUCLE_post>

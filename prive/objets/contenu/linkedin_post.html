@@ -1,0 +1,49 @@
+[(#REM)
+	Vue détaillée d'un linkedin_post dans l'espace privé.
+]
+
+<BOUCLE_post(LINKEDIN_POSTS){id_linkedin_post=#ENV{id}}{0,1}{tout}>
+
+<div class="champ contenu_titre">
+	<div class="label"><:linkedin_post:label_titre:></div>
+	<div class="titre">[(#TITRE|sinon{<em><:info_sans_titre:></em>})]</div>
+</div>
+
+[(#RESUME|oui)
+<div class="champ contenu_resume">
+	<div class="label"><:linkedin_post:label_resume:></div>
+	<div class="resume">[(#RESUME|propre)]</div>
+</div>
+]
+
+[(#TEXTE|oui)
+<div class="champ contenu_texte">
+	<div class="label"><:linkedin_post:label_texte:></div>
+	<div class="texte">[(#TEXTE|propre)]</div>
+</div>
+]
+
+[(#AUTEUR_POST|oui)
+<div class="champ contenu_auteur_post">
+	<div class="label"><:linkedin_post:label_auteur_post:></div>
+	<div class="auteur_post">#AUTEUR_POST</div>
+</div>
+]
+
+[(#IMAGE_URL|oui)
+<div class="champ contenu_image">
+	<div class="label"><:linkedin_post:label_image:></div>
+	<div class="image">
+		<img src="#IMAGE_URL" alt="" style="max-width:400px" />
+	</div>
+</div>
+]
+
+[(#DATE_POST|oui)
+<div class="champ contenu_date_post">
+	<div class="label"><:linkedin_post:label_date_post:></div>
+	<div class="date_post">[(#DATE_POST|affdate)]</div>
+</div>
+]
+
+</BOUCLE_post>

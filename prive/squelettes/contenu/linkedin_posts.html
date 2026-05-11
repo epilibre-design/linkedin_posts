@@ -1,0 +1,14 @@
+[(#REM)
+	Surcharge de prive/echafaudage/contenu/objets.html pour la liste linkedin_posts.
+	Remplace le lien "créer" (qui pointerait vers ?exec=linkedin_post_edit&new=oui)
+	par un lien vers la page d'import ?exec=linkedin_post_importer.
+]
+
+[(#AUTORISER{voir,linkedin_posts}|sinon_interdire_acces)]
+<h1 class="grostitre"><:linkedin_post:titre_linkedin_posts:></h1>
+
+<INCLURE{fond=prive/objets/liste/linkedin_post,env,ajax,sinon=linkedin_post:info_aucun_linkedin_post|_T} />
+
+[(#AUTORISER{importer,linkedin_post})
+	[(#URL_ECRIRE{linkedin_post_importer}|icone_verticale{<:linkedin_post:icone_importer_linkedin_post:>,linkedin_post,new,right})]
+]

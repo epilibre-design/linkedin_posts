@@ -1,0 +1,61 @@
+[(#REM) Formulaire d'édition d'un linkedin_post ]
+
+[<div class="reponse_formulaire reponse_formulaire_ok">(#ENV*{message_ok})</div>]
+[<div class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</div>]
+
+<BOUCLE_editable(CONDITION){si #ENV{editable}|oui}>
+<form method="post" action="#ENV{action}" class="formulaire_spip formulaire_editer formulaire_editer_linkedin_post">
+	<div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<input type="hidden" name="id_linkedin_post" value="#ENV{id_linkedin_post}" />
+
+		<ul>
+			#SET{name,url}
+			<li class="editer editer_#GET{name} obligatoire[ (#ENV**{erreurs}|table_valeur{#GET{name}}|oui)erreur]">
+				<label for="champ_#GET{name}"><:linkedin_post:label_url:></label>
+				[<span class="erreur_message">(#ENV**{erreurs}|table_valeur{#GET{name}})</span>]
+				<input type="url" class="text" name="#GET{name}" id="champ_#GET{name}" value="[(#ENV{#GET{name}})]" required="required" />
+			</li>
+
+			#SET{name,titre}
+			<li class="editer editer_#GET{name} obligatoire[ (#ENV**{erreurs}|table_valeur{#GET{name}}|oui)erreur]">
+				<label for="champ_#GET{name}"><:linkedin_post:label_titre:></label>
+				[<span class="erreur_message">(#ENV**{erreurs}|table_valeur{#GET{name}})</span>]
+				<input type="text" class="text" name="#GET{name}" id="champ_#GET{name}" value="[(#ENV{#GET{name}})]" />
+			</li>
+
+			#SET{name,resume}
+			<li class="editer editer_#GET{name}">
+				<label for="champ_#GET{name}"><:linkedin_post:label_resume:></label>
+				[<span class="erreur_message">(#ENV**{erreurs}|table_valeur{#GET{name}})</span>]
+				<textarea name="#GET{name}" id="champ_#GET{name}" rows="3" cols="40">[(#ENV{#GET{name}})]</textarea>
+				<p class="explication"><:linkedin_post:explication_resume:></p>
+			</li>
+
+			#SET{name,texte}
+			<li class="editer editer_#GET{name}">
+				<label for="champ_#GET{name}"><:linkedin_post:label_texte:></label>
+				[<span class="erreur_message">(#ENV**{erreurs}|table_valeur{#GET{name}})</span>]
+				<textarea name="#GET{name}" id="champ_#GET{name}" rows="12" cols="40" class="inserer_barre_edition">[(#ENV{#GET{name}})]</textarea>
+			</li>
+
+			#SET{name,auteur_post}
+			<li class="editer editer_#GET{name}">
+				<label for="champ_#GET{name}"><:linkedin_post:label_auteur_post:></label>
+				<input type="text" class="text" name="#GET{name}" id="champ_#GET{name}" value="[(#ENV{#GET{name}})]" />
+			</li>
+
+			#SET{name,image_url}
+			<li class="editer editer_#GET{name}">
+				<label for="champ_#GET{name}"><:linkedin_post:label_image_url:></label>
+				<input type="url" class="text" name="#GET{name}" id="champ_#GET{name}" value="[(#ENV{#GET{name}})]" />
+				[<div class="apercu_image"><img src="(#ENV{#GET{name}})" alt="" style="max-width:200px" /></div>]
+			</li>
+		</ul>
+
+		<p class="boutons">
+			<input type="submit" class="submit" name="ok" value="<:bouton_enregistrer:>" />
+		</p>
+	</div>
+</form>
+</BOUCLE_editable>

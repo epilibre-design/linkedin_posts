@@ -1,0 +1,35 @@
+<div class="formulaire_spip formulaire_configurer formulaire_#FORM">
+	<h3 class="titrem"><img src="#CHEMIN_IMAGE{linkedin_post-24.png}" class="cadre-icone" /><:linkedin_post:titre_form_configurer:></h3>
+	
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+
+	[(#ENV{editable}|oui)
+	<p><:linkedin_post:info_config_linkedin_post:></p>
+
+	<form method="post" action="#ENV{action}" enctype="multipart/form-data">
+		<div>
+		[(#REM)  <!--declarer les hidden qui declencheront le service du formulaire parametre : url d'action -->]
+		#ACTION_FORMULAIRE{#ENV{action}}
+
+            <label><:linkedin_post:label_rubriques_autorisees:></label>
+            <p class='explication'><:linkedin_post:explication_rubriques_autorisees:></p>
+            <div class="selecteur_rubrique">
+			#SAISIE{selecteur_rubrique,rubriques_autorisees,
+				multiple=oui,
+				valeur=#ENV{rubriques_autorisees}
+			}
+            </div>
+
+			<!--extra-->
+			<p class="boutons"><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
+		</div>
+	</form>
+	]
+</div>
+
+<style>
+    .formulaire_configurer_linkedin_post .selecteur_rubrique {
+        margin-bottom: 2em;
+    }
+</style>
