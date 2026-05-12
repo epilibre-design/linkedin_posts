@@ -11,6 +11,7 @@
         "rector/rector": "^2.4",
         "spip-league/easy-coding-standard": "^1.1",
         "spip-league/rector": "dev-main",
+        "spip/spip-cli-custom": "dev-master",
         "spip/tests": "dev-master"
     },
     "repositories": [
@@ -23,15 +24,24 @@
             "name": "spip-tests",
             "type": "vcs",
             "url": "https://git.spip.net/spip/tests.git"
+        },
+        {
+            "name": "technova69/spip-cli-custom",
+            "type": "vcs",
+            "url": "git@git.spip.net:technova69/spip-cli-custom.git"
         }
     ],
     "scripts": {
         "check-cs": "vendor/bin/ecs check --ansi",
         "fix-cs": "vendor/bin/ecs check --fix --ansi",
+        "install-spip-test": "sh scripts/install-spip-test.sh",
         "rector": "vendor/bin/rector process --ansi",
         "rector-dry-run": "vendor/bin/rector process --dry-run --ansi",
-        "tests-unit": "vendor/bin/phpunit --colors --testsuite unit -c phpunit.xml",
-        "tests-integration": "vendor/bin/phpunit --colors --testsuite integration --bootstrap tests/bootstrap_integration.php -c phpunit.xml"
+        "tests-unit": "vendor/bin/phpunit --colors --testsuite unit",
+        "tests-integration": [
+            "if [ ! -f vendor/spip/spip/config/connect.php ]; then echo \"SPIP local de test non installé.\" >&2; if [ -t 0 ]; then printf \"Voulez-vous lancer maintenant 'composer install-spip-test' ? [Y/n] \" >&2; read -r reponse; case \"$reponse\" in n|N|no|NO) echo \"Installation annulée. Lancez: composer install-spip-test\" >&2; exit 1 ;; *) composer install-spip-test || exit 1 ;; esac; else echo \"Lancez d'abord: composer install-spip-test\" >&2; exit 1; fi; fi",
+            "vendor/bin/phpunit --colors --testsuite integration --bootstrap tests/bootstrap_integration.php"
+        ]
     },
     "config": {
         "sort-packages": true
